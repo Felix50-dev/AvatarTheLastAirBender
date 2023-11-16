@@ -14,10 +14,10 @@ class GetCharactersByAffiliationUseCase @Inject constructor(
     private val repository: AvatarRepository
 ) {
 
-    operator fun invoke(): Flow<Resource<List<CharacterAffiliation>>> = flow {
+    operator fun invoke(nation: String): Flow<Resource<List<CharacterAffiliation>>> = flow {
         try {
             emit(Resource.Loading())
-            val charactersByAffiliation = repository.getCharactersByAffiliation()
+            val charactersByAffiliation = repository.getCharactersByAffiliation(nation)
             emit(Resource.Success(charactersByAffiliation.map { it.toCharacterAffiliation() }))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "unexpected error"))

@@ -13,6 +13,6 @@ interface AvatarRepository {
 
     suspend fun getAvatars(): List <AvatarDto>
 
-    suspend fun getCharactersByAffiliation(): List<CharacterAffiliationDto>
+    suspend fun getCharactersByAffiliation(nation: String): List<CharacterAffiliationDto>
 
 }
