@@ -9,7 +9,7 @@ interface AvatarRepository {
 
     suspend fun getCharacters(): List<CharacterDto>
 
-    suspend fun getCharacterById(): CharacterDetailDto
+    suspend fun getCharacterById(characterId: String): CharacterDetailDto
 
     suspend fun getAvatars(): List <AvatarDto>
 

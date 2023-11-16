@@ -11,7 +11,7 @@ data class CharacterAffiliation(
     val photoUrl: String
 )
 
-fun CharacterAffiliationDto.CharacterAffiliation(): CharacterAffiliation {
+fun CharacterAffiliationDto.toCharacterAffiliation(): CharacterAffiliation {
     return CharacterAffiliation(
         _id = _id,
         affiliation = affiliation,
