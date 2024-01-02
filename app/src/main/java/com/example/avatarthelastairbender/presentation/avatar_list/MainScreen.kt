@@ -3,6 +3,7 @@ package com.example.avatarthelastairbender.presentation.avatar_list
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,8 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -141,6 +145,25 @@ fun CharacterItem(
             }
         }
 }
+@Composable
+fun CharactersList(
+    characters: List<CharacterAffiliation>,
+    onCharacterClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        itemsIndexed(characters) { index, character ->
+
+            CharacterItem(
+                character = character,
+                onCharacterClick = onCharacterClick,
+                gradient = listOf(Color.Blue,Color.White),
+                scrollProvider = { 0f },
+                index = index
+            )
+        }
+    }
+}
 
 fun Modifier.offsetGradientBackground(
     colors: List<Color>,
@@ -188,6 +211,23 @@ fun SnackCardPreview() {
             index = 0,
             gradient = gradient,
             scrollProvider = { 0f }
+        )
+    }
+}
+
+@Preview("default")
+@Preview("dark theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview("large font", fontScale = 2f)
+@Composable
+fun CharacterListPreview() {
+    AvatarTheLastAirBenderTheme {
+        val allies = listOf<String>("Zuko","Katara")
+        val enemies = listOf<String>("Azula", "Ozai")
+        val character = CharacterAffiliation("","Nomad",allies,enemies,"Chong","https://vignette.wikia.nocookie.net/avatar/images/f/f8/Chong.png/revision/latest?cb=20140127210142")
+        val gradient = listOf<Color>(Color.Blue, Color.White)
+        CharactersList(
+            characters = listOf(character, character),
+            onCharacterClick = { },
         )
     }
 }
