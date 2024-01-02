@@ -22,24 +22,24 @@ class CharacterByAffiliationViewModel @Inject constructor(
     private val _state = mutableStateOf(CharacterByAffiliationState())
     val state: State<CharacterByAffiliationState> = _state
 
-    init {
-        savedStateHandle.get<String>(Constants.PARAM_CHARACTER_ID)?.let { nation ->
-            getCharactersByAffiliation(nation)
-        }
-    }
-    private fun getCharactersByAffiliation(nation: String) {
-        getCharacterByAffiliationUseCase(nation).onEach { result ->
-            when (result) {
-                is Resource.Success -> {
-                    _state.value = CharacterByAffiliationState(characters = result.data)
-                }
-                is Resource.Error -> {
-                    _state.value = CharacterByAffiliationState(error = result.message ?: "Unexpected error")
-                }
-                is Resource.Loading -> {
-                    _state.value = CharacterByAffiliationState(isLoading = true)
-                }
-            }
-        }.launchIn(viewModelScope)
-    }
+//    init {
+//        savedStateHandle.get<String>(Constants.PARAM_CHARACTER_ID)?.let { nation ->
+//            getCharactersByAffiliation(nation)
+//        }
+//    }
+//    private fun getCharactersByAffiliation(nation: String) {
+//        getCharacterByAffiliationUseCase(nation).onEach { result ->
+//            when (result) {
+//                is Resource.Success -> {
+//                    _state.value = CharacterByAffiliationState(characters = result.data)
+//                }
+//                is Resource.Error -> {
+//                    _state.value = CharacterByAffiliationState(error = result.message ?: "Unexpected error")
+//                }
+//                is Resource.Loading -> {
+//                    _state.value = CharacterByAffiliationState(isLoading = true)
+//                }
+//            }
+//        }.launchIn(viewModelScope)
+//    }
 }
