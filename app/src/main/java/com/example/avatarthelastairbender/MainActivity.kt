@@ -3,6 +3,7 @@ package com.example.avatarthelastairbender
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -10,6 +11,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.avatarthelastairbender.presentation.avatar_list.AvatarListViewModel
+import com.example.avatarthelastairbender.presentation.avatar_list.MainScreen
 import com.example.avatarthelastairbender.ui.theme.AvatarTheLastAirBenderTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +27,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    val avatarListViewModel: AvatarListViewModel by viewModels()
+                    MainScreen(viewModel = avatarListViewModel)
                 }
             }
         }

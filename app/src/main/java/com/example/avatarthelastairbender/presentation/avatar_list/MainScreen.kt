@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -38,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.avatarthelastairbender.R
+import com.example.avatarthelastairbender.domain.model.Avatar
 import com.example.avatarthelastairbender.domain.model.CharacterAffiliation
 import com.example.avatarthelastairbender.ui.theme.AvatarTheLastAirBenderTheme
 
@@ -45,6 +45,16 @@ private val HighlightCardWidth = 170.dp
 private val HighlightCardPadding = 16.dp
 private val Density.cardWidthWithPaddingPx
     get() = (HighlightCardWidth + HighlightCardPadding).toPx()
+
+@Composable
+fun MainScreen(
+    viewModel: AvatarListViewModel
+) {
+    AvatarList(avatars = viewModel.state.value.avatarsList, onCharacterClick = {})
+    CharactersList(characters = viewModel.state.value.earthBendersList, onCharacterClick = {})
+    CharactersList(characters = viewModel.state.value.waterBendersList, onCharacterClick = {})
+    CharactersList(characters = viewModel.state.value.fireBendersList, onCharacterClick = {})
+}
 
 
 @Composable
@@ -142,9 +152,83 @@ fun CharacterItem(
                 //color = Theme.colors.textHelp,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
-            }
         }
+    }
 }
+
+@Composable
+fun AvatarItem(
+    avatar: Avatar,
+    onCharacterClick: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    gradient: List<Color>,
+    scrollProvider: () -> Float,
+    index: Int
+) {
+
+    Card(
+        modifier = modifier
+            .size(
+                width = HighlightCardWidth,
+                height = 250.dp
+            )
+            .padding(bottom = 16.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .clickable(onClick = { onCharacterClick(avatar._id) })
+                .fillMaxSize()
+        ) {
+            Box(
+                modifier = Modifier
+                    .height(160.dp)
+                    .fillMaxWidth()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .height(100.dp)
+                        .fillMaxWidth()
+                        .offsetGradientBackground(
+                            colors = gradient,
+                            width = {
+                                // The Cards show a gradient which spans 6 cards and scrolls with parallax.
+                                6 * cardWidthWithPaddingPx
+                            },
+                            offset = {
+                                val left = index * cardWidthWithPaddingPx
+                                val gradientOffset = left - (scrollProvider() / 3f)
+                                gradientOffset
+                            }
+                        )
+                )
+                CharacterImage(
+                    imageUrl = avatar.photoUrl,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(120.dp)
+                        .align(Alignment.BottomCenter)
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = avatar.name,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.h6,
+                //color = MaterialTheme,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = avatar.affiliation,
+                style = MaterialTheme.typography.body1,
+                //color = Theme.colors.textHelp,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+        }
+    }
+}
+
 @Composable
 fun CharactersList(
     characters: List<CharacterAffiliation>,
@@ -157,13 +241,42 @@ fun CharactersList(
             CharacterItem(
                 character = character,
                 onCharacterClick = onCharacterClick,
-                gradient = listOf(Color.Blue,Color.White),
+                gradient = listOf(Color.Blue, Color.White),
                 scrollProvider = { 0f },
                 index = index
             )
         }
     }
 }
+
+@Composable
+fun AvatarList(
+    avatars: List<Avatar>,
+    onCharacterClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        itemsIndexed(avatars) { index, avatar ->
+
+            AvatarItem(
+                avatar = avatar,
+                onCharacterClick = onCharacterClick,
+                gradient = if (avatar.affiliation == "Fire") {
+                    listOf(Color.Red, Color.Gray)
+                } else if (avatar.affiliation == "Water") {
+                    listOf(Color.Blue, Color.White)
+                } else if (avatar.affiliation == "Air") {
+                    listOf(Color.Yellow, Color.Blue)
+                } else {
+                    listOf(Color.Green, Color.White)
+                },
+                scrollProvider = { 0f },
+                index = index
+            )
+        }
+    }
+}
+
 
 fun Modifier.offsetGradientBackground(
     colors: List<Color>,
@@ -201,9 +314,16 @@ fun Modifier.offsetGradientBackground(
 @Composable
 fun SnackCardPreview() {
     AvatarTheLastAirBenderTheme {
-        val allies = listOf<String>("Zuko","Katara")
+        val allies = listOf<String>("Zuko", "Katara")
         val enemies = listOf<String>("Azula", "Ozai")
-        val character = CharacterAffiliation("","Nomad",allies,enemies,"Chong","https://vignette.wikia.nocookie.net/avatar/images/f/f8/Chong.png/revision/latest?cb=20140127210142")
+        val character = CharacterAffiliation(
+            "",
+            "Nomad",
+            allies,
+            enemies,
+            "Chong",
+            "https://vignette.wikia.nocookie.net/avatar/images/f/f8/Chong.png/revision/latest?cb=20140127210142"
+        )
         val gradient = listOf<Color>(Color.Blue, Color.White)
         CharacterItem(
             character = character,
@@ -221,9 +341,16 @@ fun SnackCardPreview() {
 @Composable
 fun CharacterListPreview() {
     AvatarTheLastAirBenderTheme {
-        val allies = listOf<String>("Zuko","Katara")
+        val allies = listOf<String>("Zuko", "Katara")
         val enemies = listOf<String>("Azula", "Ozai")
-        val character = CharacterAffiliation("","Nomad",allies,enemies,"Chong","https://vignette.wikia.nocookie.net/avatar/images/f/f8/Chong.png/revision/latest?cb=20140127210142")
+        val character = CharacterAffiliation(
+            "",
+            "Nomad",
+            allies,
+            enemies,
+            "Chong",
+            "https://vignette.wikia.nocookie.net/avatar/images/f/f8/Chong.png/revision/latest?cb=20140127210142"
+        )
         val gradient = listOf<Color>(Color.Blue, Color.White)
         CharactersList(
             characters = listOf(character, character),
