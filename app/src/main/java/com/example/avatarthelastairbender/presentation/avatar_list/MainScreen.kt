@@ -241,7 +241,23 @@ fun CharactersList(
             CharacterItem(
                 character = character,
                 onCharacterClick = onCharacterClick,
-                gradient = listOf(Color.Blue, Color.White),
+                gradient = when (character.affiliation) {
+                    "Fire" -> {
+                        listOf(Color.Red, Color(0xFFFF7043))
+                    }
+
+                    "Water" -> {
+                        listOf(Color.Blue, Color.White)
+                    }
+
+                    "Air" -> {
+                        listOf(Color.Yellow, Color(0xFF26C6DA))
+                    }
+
+                    else -> {
+                        listOf(Color.Green, Color(0xFF964B00))
+                    }
+                },
                 scrollProvider = { 0f },
                 index = index
             )
@@ -261,14 +277,22 @@ fun AvatarList(
             AvatarItem(
                 avatar = avatar,
                 onCharacterClick = onCharacterClick,
-                gradient = if (avatar.affiliation == "Fire") {
-                    listOf(Color.Red, Color.Gray)
-                } else if (avatar.affiliation == "Water") {
-                    listOf(Color.Blue, Color.White)
-                } else if (avatar.affiliation == "Air") {
-                    listOf(Color.Yellow, Color.Blue)
-                } else {
-                    listOf(Color.Green, Color.White)
+                gradient = when (avatar.affiliation) {
+                    "Fire" -> {
+                        listOf(Color.Red, Color(0xFFFF7043))
+                    }
+
+                    "Water" -> {
+                        listOf(Color.Blue, Color.White)
+                    }
+
+                    "Air" -> {
+                        listOf(Color.Yellow, Color(0xFF26C6DA))
+                    }
+
+                    else -> {
+                        listOf(Color.Green, Color(0xFF964B00))
+                    }
                 },
                 scrollProvider = { 0f },
                 index = index
@@ -276,20 +300,6 @@ fun AvatarList(
         }
     }
 }
-
-
-fun Modifier.offsetGradientBackground(
-    colors: List<Color>,
-    width: Float,
-    offset: Float = 0f
-) = background(
-    Brush.horizontalGradient(
-        colors = colors,
-        startX = -offset,
-        endX = width - offset,
-        tileMode = TileMode.Mirror
-    )
-)
 
 fun Modifier.offsetGradientBackground(
     colors: List<Color>,
@@ -314,17 +324,17 @@ fun Modifier.offsetGradientBackground(
 @Composable
 fun SnackCardPreview() {
     AvatarTheLastAirBenderTheme {
-        val allies = listOf<String>("Zuko", "Katara")
-        val enemies = listOf<String>("Azula", "Ozai")
+        val allies = listOf("Zuko", "Katara")
+        val enemies = listOf("Azula", "Ozai")
         val character = CharacterAffiliation(
             "",
-            "Nomad",
+            "Fire",
             allies,
             enemies,
             "Chong",
             "https://vignette.wikia.nocookie.net/avatar/images/f/f8/Chong.png/revision/latest?cb=20140127210142"
         )
-        val gradient = listOf<Color>(Color.Blue, Color.White)
+        val gradient = listOf(Color.Blue, Color.White)
         CharacterItem(
             character = character,
             onCharacterClick = { },
@@ -341,17 +351,16 @@ fun SnackCardPreview() {
 @Composable
 fun CharacterListPreview() {
     AvatarTheLastAirBenderTheme {
-        val allies = listOf<String>("Zuko", "Katara")
-        val enemies = listOf<String>("Azula", "Ozai")
+        val allies = listOf("Zuko", "Katara")
+        val enemies = listOf("Azula", "Ozai")
         val character = CharacterAffiliation(
             "",
-            "Nomad",
+            "Fire",
             allies,
             enemies,
             "Chong",
             "https://vignette.wikia.nocookie.net/avatar/images/f/f8/Chong.png/revision/latest?cb=20140127210142"
         )
-        val gradient = listOf<Color>(Color.Blue, Color.White)
         CharactersList(
             characters = listOf(character, character),
             onCharacterClick = { },
