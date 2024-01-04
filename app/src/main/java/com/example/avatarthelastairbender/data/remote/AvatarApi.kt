@@ -6,6 +6,7 @@ import com.example.avatarthelastairbender.data.remote.dto.CharacterDetailDto
 import com.example.avatarthelastairbender.data.remote.dto.CharacterDto
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface AvatarApi {
 
@@ -19,8 +20,8 @@ interface AvatarApi {
     @GET("/api/v1/characters/avatar")
     suspend fun getAllAvatars(): List<AvatarDto>
 
-    @GET("/api/v1/characters/?affiliation={nation}")
-    suspend fun getCharacterByAffiliation(@Path("nation") nation: String): List<CharacterAffiliationDto>
+    @GET("/api/v1/characters/")
+    suspend fun getCharacterByAffiliation(@Query("affiliation") nation: String): List<CharacterAffiliationDto>
 
 
 

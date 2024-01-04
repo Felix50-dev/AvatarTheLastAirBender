@@ -8,7 +8,7 @@ data class CharacterAffiliation(
     val allies: List<String>,
     val enemies: List<String>,
     val name: String,
-    val photoUrl: String
+    val photoUrl: String?
 )
 
 fun CharacterAffiliationDto.toCharacterAffiliation(): CharacterAffiliation {

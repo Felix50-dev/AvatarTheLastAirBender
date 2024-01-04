@@ -59,7 +59,7 @@ fun MainScreen(
 
 @Composable
 fun CharacterImage(
-    imageUrl: String,
+    imageUrl: String?,
     contentDescription: String?,
     modifier: Modifier = Modifier,
     elevation: Dp = 0.dp
@@ -122,9 +122,7 @@ fun CharacterItem(
                                 6 * cardWidthWithPaddingPx
                             },
                             offset = {
-                                val left = index * cardWidthWithPaddingPx
-                                val gradientOffset = left - (scrollProvider() / 3f)
-                                gradientOffset
+                                0f
                             }
                         )
                 )
@@ -195,9 +193,7 @@ fun AvatarItem(
                                 6 * cardWidthWithPaddingPx
                             },
                             offset = {
-                                val left = index * cardWidthWithPaddingPx
-                                val gradientOffset = left - (scrollProvider() / 3f)
-                                gradientOffset
+                                0f
                             }
                         )
                 )
