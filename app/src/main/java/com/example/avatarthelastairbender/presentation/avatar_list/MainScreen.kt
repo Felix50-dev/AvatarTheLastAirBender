@@ -1,7 +1,6 @@
 package com.example.avatarthelastairbender.presentation.avatar_list
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,10 +49,10 @@ private val Density.cardWidthWithPaddingPx
 fun MainScreen(
     viewModel: AvatarListViewModel
 ) {
-    AvatarList(avatars = viewModel.state.value.avatarsList, onCharacterClick = {})
-    CharactersList(characters = viewModel.state.value.earthBendersList, onCharacterClick = {})
-    CharactersList(characters = viewModel.state.value.waterBendersList, onCharacterClick = {})
-    CharactersList(characters = viewModel.state.value.fireBendersList, onCharacterClick = {})
+    viewModel.state.value.characters?.let { AvatarList(avatars = it.avatarsList) {} }
+    viewModel.state.value.characters?.let { CharactersList(characters = it.earthBendersList) {} }
+    viewModel.state.value.characters?.let { CharactersList(characters = it.waterBendersList) {} }
+    viewModel.state.value.characters?.let { CharactersList(characters = it.fireBendersList) {} }
 }
 
 
@@ -88,9 +87,7 @@ fun CharacterItem(
     character: CharacterAffiliation,
     onCharacterClick: (String) -> Unit,
     modifier: Modifier = Modifier,
-    gradient: List<Color>,
-    scrollProvider: () -> Float,
-    index: Int
+    gradient: List<Color>
 ) {
 
     Card(
@@ -159,9 +156,7 @@ fun AvatarItem(
     avatar: Avatar,
     onCharacterClick: (String) -> Unit,
     modifier: Modifier = Modifier,
-    gradient: List<Color>,
-    scrollProvider: () -> Float,
-    index: Int
+    gradient: List<Color>
 ) {
 
     Card(
@@ -215,12 +210,14 @@ fun AvatarItem(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = avatar.affiliation,
-                style = MaterialTheme.typography.body1,
-                //color = Theme.colors.textHelp,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            avatar.affiliation?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.body1,
+                    //color = Theme.colors.textHelp,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
         }
     }
 }
@@ -228,8 +225,7 @@ fun AvatarItem(
 @Composable
 fun CharactersList(
     characters: List<CharacterAffiliation>,
-    onCharacterClick: (String) -> Unit,
-    modifier: Modifier = Modifier
+    onCharacterClick: (String) -> Unit
 ) {
     LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         itemsIndexed(characters) { index, character ->
@@ -253,9 +249,7 @@ fun CharactersList(
                     else -> {
                         listOf(Color.Green, Color(0xFF964B00))
                     }
-                },
-                scrollProvider = { 0f },
-                index = index
+                }
             )
         }
     }
@@ -264,8 +258,7 @@ fun CharactersList(
 @Composable
 fun AvatarList(
     avatars: List<Avatar>,
-    onCharacterClick: (String) -> Unit,
-    modifier: Modifier = Modifier
+    onCharacterClick: (String) -> Unit
 ) {
     LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         itemsIndexed(avatars) { index, avatar ->
@@ -289,9 +282,7 @@ fun AvatarList(
                     else -> {
                         listOf(Color.Green, Color(0xFF964B00))
                     }
-                },
-                scrollProvider = { 0f },
-                index = index
+                }
             )
         }
     }
@@ -334,9 +325,7 @@ fun SnackCardPreview() {
         CharacterItem(
             character = character,
             onCharacterClick = { },
-            index = 0,
-            gradient = gradient,
-            scrollProvider = { 0f }
+            gradient = gradient
         )
     }
 }
@@ -359,7 +348,6 @@ fun CharacterListPreview() {
         )
         CharactersList(
             characters = listOf(character, character),
-            onCharacterClick = { },
-        )
+        ) { }
     }
 }

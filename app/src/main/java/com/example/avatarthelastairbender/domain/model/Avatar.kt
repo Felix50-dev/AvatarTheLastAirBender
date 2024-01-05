@@ -4,7 +4,7 @@ import com.example.avatarthelastairbender.data.remote.dto.AvatarDto
 
 data class Avatar(
     val _id: String,
-    val affiliation: String,
+    val affiliation: String? = "",
     val allies: List<String>,
     val enemies: List<String>,
     val gender: String,
