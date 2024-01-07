@@ -1,6 +1,7 @@
 package com.example.avatarthelastairbender.presentation.avatar_list
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -107,6 +108,7 @@ fun CharacterItem(
                 modifier = Modifier
                     .height(160.dp)
                     .fillMaxWidth()
+                    .background(gradient[0])
             ) {
                 Box(
                     modifier = Modifier
@@ -171,6 +173,7 @@ fun AvatarItem(
             modifier = Modifier
                 .clickable(onClick = { onCharacterClick(avatar._id) })
                 .fillMaxSize()
+                .background(gradient[0])
         ) {
             Box(
                 modifier = Modifier
@@ -261,7 +264,7 @@ fun AvatarList(
     onCharacterClick: (String) -> Unit
 ) {
     LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        itemsIndexed(avatars) { index, avatar ->
+        itemsIndexed(avatars) { _, avatar ->
 
             AvatarItem(
                 avatar = avatar,

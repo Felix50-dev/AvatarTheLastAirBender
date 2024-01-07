@@ -45,3 +45,4 @@ fun AvatarTheLastAirBenderTheme(
         content = content
     )
 }
+
