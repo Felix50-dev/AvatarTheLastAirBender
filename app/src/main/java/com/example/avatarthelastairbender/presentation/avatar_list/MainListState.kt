@@ -4,6 +4,6 @@ import com.example.avatarthelastairbender.domain.usecases.getAllCharacters.MainS
 
 data class MainListState(
     val isLoading: Boolean = false,
-    var characters: MainScreenListViewState? = null,
+    val characters: MainScreenListViewState? = null,
     val error: String = ""
 )

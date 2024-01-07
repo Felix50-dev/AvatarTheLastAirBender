@@ -27,13 +27,14 @@ class GetAllCharactersUseCase @Inject constructor(
             val avatars = repository.getAvatars()
             Log.d("Avatars", "invoke: $avatars")
 
-            MainScreenListViewState(
+            val mainScreenListViewState = MainScreenListViewState(
                 earthBendersList = earthBenders.map { it.toCharacterAffiliation() },
                 waterBendersList = waterBenders.map { it.toCharacterAffiliation() },
                 fireBendersList = fireBenders.map { it.toCharacterAffiliation() },
                 avatarsList = avatars.map { it.toAvatar() },
             )
             emit(Resource.Success(MainScreenListViewState()))
+            Log.d("AvatarsEmitted", "invoke: ${mainScreenListViewState.avatarsList}")
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "unexpected error"))
         } catch (e: IOException) {

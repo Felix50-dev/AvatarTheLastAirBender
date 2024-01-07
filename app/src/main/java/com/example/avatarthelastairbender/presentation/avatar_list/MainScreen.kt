@@ -50,10 +50,39 @@ private val Density.cardWidthWithPaddingPx
 fun MainScreen(
     viewModel: AvatarListViewModel
 ) {
-    viewModel.state.value.characters?.let { AvatarList(avatars = it.avatarsList) {} }
-    viewModel.state.value.characters?.let { CharactersList(characters = it.earthBendersList) {} }
-    viewModel.state.value.characters?.let { CharactersList(characters = it.waterBendersList) {} }
-    viewModel.state.value.characters?.let { CharactersList(characters = it.fireBendersList) {} }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        viewModel.state.value.avatarsList?.data?.let {
+            AvatarList(
+                avatars = it,
+                onCharacterClick = {})
+        }
+        viewModel.state.value.earthBendersList?.data?.let {
+            CharactersList(
+                characters = it,
+                onCharacterClick = {},
+                category = "Earth"
+            )
+        }
+        viewModel.state.value.waterBendersList?.data?.let {
+            CharactersList(
+                characters = it,
+                onCharacterClick = {},
+                category = "Water"
+            )
+        }
+        viewModel.state.value.fireBendersList?.data?.let {
+            CharactersList(
+                characters = it,
+                onCharacterClick = {},
+                category = "Fire"
+            )
+        }
+    }
 }
 
 
@@ -173,12 +202,12 @@ fun AvatarItem(
             modifier = Modifier
                 .clickable(onClick = { onCharacterClick(avatar._id) })
                 .fillMaxSize()
-                .background(gradient[0])
         ) {
             Box(
                 modifier = Modifier
                     .height(160.dp)
                     .fillMaxWidth()
+                    .background(gradient[0])
             ) {
                 Box(
                     modifier = Modifier
@@ -213,14 +242,12 @@ fun AvatarItem(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(4.dp))
-            avatar.affiliation?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.body1,
-                    //color = Theme.colors.textHelp,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            }
+            Text(
+                text = avatar.weapon,
+                style = MaterialTheme.typography.body1,
+                //color = Theme.colors.textHelp,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
         }
     }
 }
@@ -228,7 +255,8 @@ fun AvatarItem(
 @Composable
 fun CharactersList(
     characters: List<CharacterAffiliation>,
-    onCharacterClick: (String) -> Unit
+    onCharacterClick: (String) -> Unit,
+    category: String
 ) {
     LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         itemsIndexed(characters) { index, character ->
@@ -236,7 +264,7 @@ fun CharactersList(
             CharacterItem(
                 character = character,
                 onCharacterClick = onCharacterClick,
-                gradient = when (character.affiliation) {
+                gradient = when (category) {
                     "Fire" -> {
                         listOf(Color.Red, Color(0xFFFF7043))
                     }
@@ -269,23 +297,7 @@ fun AvatarList(
             AvatarItem(
                 avatar = avatar,
                 onCharacterClick = onCharacterClick,
-                gradient = when (avatar.affiliation) {
-                    "Fire" -> {
-                        listOf(Color.Red, Color(0xFFFF7043))
-                    }
-
-                    "Water" -> {
-                        listOf(Color.Blue, Color.White)
-                    }
-
-                    "Air" -> {
-                        listOf(Color.Yellow, Color(0xFF26C6DA))
-                    }
-
-                    else -> {
-                        listOf(Color.Green, Color(0xFF964B00))
-                    }
-                }
+                gradient = listOf(Color(0xFF26C6DA), Color.White)
             )
         }
     }
@@ -351,6 +363,8 @@ fun CharacterListPreview() {
         )
         CharactersList(
             characters = listOf(character, character),
-        ) { }
+            onCharacterClick = {},
+            category = "Fire"
+        )
     }
 }
