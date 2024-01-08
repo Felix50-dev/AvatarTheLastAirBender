@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.avatarthelastairbender.domain.model.CharacterAffiliation
 import com.example.avatarthelastairbender.presentation.avatar_list.AvatarListViewModel
-import com.example.avatarthelastairbender.presentation.avatar_list.CharacterDetailsScreen
 import com.example.avatarthelastairbender.presentation.avatar_list.MainScreen
+import com.example.avatarthelastairbender.presentation.avatar_list.TwoColorSurface
 import com.example.avatarthelastairbender.ui.theme.AvatarTheLastAirBenderTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val avatarListViewModel: AvatarListViewModel by viewModels()
                     MainScreen(viewModel = avatarListViewModel)
+
                 }
             }
         }

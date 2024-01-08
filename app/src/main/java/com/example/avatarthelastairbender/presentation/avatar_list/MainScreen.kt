@@ -132,27 +132,24 @@ fun CharacterItem(
             modifier = Modifier
                 .clickable(onClick = { onCharacterClick(character._id) })
                 .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            gradient[0],
+                            gradient[1]
+                        )
+                    )
+                )
         ) {
             Box(
                 modifier = Modifier
                     .height(160.dp)
                     .fillMaxWidth()
-                    .background(gradient[0])
             ) {
                 Box(
                     modifier = Modifier
                         .height(100.dp)
                         .fillMaxWidth()
-                        .offsetGradientBackground(
-                            colors = gradient,
-                            width = {
-                                // The Cards show a gradient which spans 6 cards and scrolls with parallax.
-                                6 * cardWidthWithPaddingPx
-                            },
-                            offset = {
-                                0f
-                            }
-                        )
                 )
                 CharacterImage(
                     imageUrl = character.photoUrl,
@@ -202,27 +199,24 @@ fun AvatarItem(
             modifier = Modifier
                 .clickable(onClick = { onCharacterClick(avatar._id) })
                 .fillMaxSize()
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(
+                            gradient[0],
+                            gradient[1]
+                        )
+                    )
+                )
         ) {
             Box(
                 modifier = Modifier
                     .height(160.dp)
                     .fillMaxWidth()
-                    .background(gradient[0])
             ) {
                 Box(
                     modifier = Modifier
                         .height(100.dp)
                         .fillMaxWidth()
-                        .offsetGradientBackground(
-                            colors = gradient,
-                            width = {
-                                // The Cards show a gradient which spans 6 cards and scrolls with parallax.
-                                6 * cardWidthWithPaddingPx
-                            },
-                            offset = {
-                                0f
-                            }
-                        )
                 )
                 CharacterImage(
                     imageUrl = avatar.photoUrl,
