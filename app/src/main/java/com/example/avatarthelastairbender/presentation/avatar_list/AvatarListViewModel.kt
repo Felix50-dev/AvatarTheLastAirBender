@@ -31,18 +31,21 @@ class AvatarListViewModel @Inject constructor(
             val earthBenders = getCharactersByAffiliationUseCase("earth")
             val waterBenders = getCharactersByAffiliationUseCase("water")
             val fireBenders = getCharactersByAffiliationUseCase("fire")
+            val airBenders = getCharactersByAffiliationUseCase("Air")
             val avatars = getCAvatarsUseCase()
 
             combine(
                 earthBenders,
                 waterBenders,
                 fireBenders,
+                airBenders,
                 avatars
-            ) { earthBendersList, waterBendersList, fireBendersList, avatarsList ->
+            ) { earthBendersList, waterBendersList, fireBendersList, airBendersList, avatarsList ->
                 MainScreenListViewState(
                     earthBendersList,
                     waterBendersList,
                     fireBendersList,
+                    airBendersList,
                     avatarsList
                 )
             }.collect { _state.value = it }
@@ -55,5 +58,6 @@ data class MainScreenListViewState(
     val earthBendersList: Resource<List<CharacterAffiliation>>? = null,
     val waterBendersList: Resource<List<CharacterAffiliation>>? = null,
     val fireBendersList: Resource<List<CharacterAffiliation>>? = null,
+    val airBendersList: Resource<List<CharacterAffiliation>>? = null,
     val avatarsList: Resource<List<Avatar>>? = null
 )

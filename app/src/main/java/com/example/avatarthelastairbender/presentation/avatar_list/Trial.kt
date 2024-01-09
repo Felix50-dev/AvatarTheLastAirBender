@@ -23,8 +23,7 @@ import com.example.avatarthelastairbender.domain.model.CharacterDetail
 
 @Composable
 fun TwoColorSurface(
-    topColor: Color,
-    bottomColor: Color,
+    colors: List<Color>,
     characterAffiliation: CharacterAffiliation
 ) {
     // Create a Column with two colored Surface components
@@ -33,10 +32,7 @@ fun TwoColorSurface(
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        topColor,
-                        bottomColor
-                    )
+                    colors = colors
                 )
             )
     ) {
@@ -44,13 +40,11 @@ fun TwoColorSurface(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxSize()
-                .background(topColor)
         )
         Box(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxSize()
-                .background(bottomColor)
         )
         // Central Box with content
         Surface(
@@ -81,6 +75,7 @@ fun TwoColorSurface(
 fun TwoColorSurfaceWithContentScreenPreview() {
     val allies = listOf("Zuko", "Katara")
     val enemies = listOf("Azula", "Ozai")
+    val colors = listOf(Color.Blue, Color.White)
     val character = CharacterAffiliation(
         "",
         "Fire",
@@ -89,5 +84,5 @@ fun TwoColorSurfaceWithContentScreenPreview() {
         "Chong",
         "https://vignette.wikia.nocookie.net/avatar/images/f/f8/Chong.png/revision/latest?cb=20140127210142"
     )
-    TwoColorSurface(Color.Blue, Color.White, character)
+    TwoColorSurface(colors, character)
 }

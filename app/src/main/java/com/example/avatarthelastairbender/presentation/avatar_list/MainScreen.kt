@@ -29,17 +29,21 @@ import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.avatarthelastairbender.R
 import com.example.avatarthelastairbender.domain.model.Avatar
 import com.example.avatarthelastairbender.domain.model.CharacterAffiliation
 import com.example.avatarthelastairbender.ui.theme.AvatarTheLastAirBenderTheme
+import java.nio.file.WatchEvent
 
 private val HighlightCardWidth = 170.dp
 private val HighlightCardPadding = 16.dp
@@ -56,11 +60,27 @@ fun MainScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        viewModel.state.value.avatarsList?.data?.let {
-            AvatarList(
-                avatars = it,
-                onCharacterClick = {})
+        Text(
+            text = "Air Benders",
+            textAlign = TextAlign.Right,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(8.dp)
+        )
+        viewModel.state.value.airBendersList?.data?.let {
+            CharactersList(
+                characters = it,
+                onCharacterClick = {},
+                category = "Air"
+            )
         }
+        Text(
+            text = "Earth Nation",
+            textAlign = TextAlign.Right,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(8.dp)
+        )
         viewModel.state.value.earthBendersList?.data?.let {
             CharactersList(
                 characters = it,
@@ -68,6 +88,13 @@ fun MainScreen(
                 category = "Earth"
             )
         }
+        Text(
+            text = "Water Nation",
+            textAlign = TextAlign.Right,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(8.dp)
+        )
         viewModel.state.value.waterBendersList?.data?.let {
             CharactersList(
                 characters = it,
@@ -75,12 +102,31 @@ fun MainScreen(
                 category = "Water"
             )
         }
+        Text(
+            text = "Fire Nation",
+            textAlign = TextAlign.Right,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(8.dp)
+        )
         viewModel.state.value.fireBendersList?.data?.let {
             CharactersList(
                 characters = it,
                 onCharacterClick = {},
                 category = "Fire"
             )
+        }
+        Text(
+            text = "Avatars",
+            textAlign = TextAlign.Right,
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(8.dp)
+        )
+        viewModel.state.value.avatarsList?.data?.let {
+            AvatarList(
+                avatars = it,
+                onCharacterClick = {})
         }
     }
 }
@@ -268,11 +314,11 @@ fun CharactersList(
                     }
 
                     "Air" -> {
-                        listOf(Color.Yellow, Color(0xFF26C6DA))
+                        listOf(Color.Yellow, Color(0xFFFF7043))
                     }
 
                     else -> {
-                        listOf(Color.Green, Color(0xFF964B00))
+                        listOf(Color(0xFF964B00), Color.Green)
                     }
                 }
             )
