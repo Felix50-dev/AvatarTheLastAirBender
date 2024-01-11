@@ -1,18 +1,20 @@
 package com.example.avatarthelastairbender.domain.model
 
+import androidx.compose.ui.graphics.Color
 import com.example.avatarthelastairbender.data.remote.dto.CharacterDetailDto
 
 data class CharacterDetail(
-    val _id: String,
-    val affiliation: String,
-    val allies: List<String>,
-    val enemies: List<String>,
-    val gender: String,
-    val name: String,
-    val photoUrl: String,
-    val position: String,
-    val profession: String,
-    val weapon: String
+    val _id: String?,
+    val affiliation: String?,
+    val allies: List<String>?,
+    val enemies: List<String>?,
+    val gender: String?,
+    val name: String?,
+    val photoUrl: String?,
+    val position: String?,
+    val profession: String?,
+    val weapon: String?,
+    val category: String?,
 )
 
 fun CharacterDetailDto.toCharacterDetail(): CharacterDetail {
@@ -26,7 +28,8 @@ fun CharacterDetailDto.toCharacterDetail(): CharacterDetail {
         photoUrl = photoUrl,
         position = position,
         profession = profession,
-        weapon = weapon
+        weapon = weapon,
+        category = null
     )
 }
 

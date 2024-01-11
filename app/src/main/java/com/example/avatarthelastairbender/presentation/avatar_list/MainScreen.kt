@@ -43,7 +43,6 @@ import com.example.avatarthelastairbender.R
 import com.example.avatarthelastairbender.domain.model.Avatar
 import com.example.avatarthelastairbender.domain.model.CharacterAffiliation
 import com.example.avatarthelastairbender.ui.theme.AvatarTheLastAirBenderTheme
-import java.nio.file.WatchEvent
 
 private val HighlightCardWidth = 170.dp
 private val HighlightCardPadding = 16.dp
@@ -52,7 +51,8 @@ private val Density.cardWidthWithPaddingPx
 
 @Composable
 fun MainScreen(
-    viewModel: AvatarListViewModel
+    viewModel: AvatarListViewModel,
+    onCharacterClick: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -70,7 +70,7 @@ fun MainScreen(
         viewModel.state.value.airBendersList?.data?.let {
             CharactersList(
                 characters = it,
-                onCharacterClick = {},
+                onCharacterClick = onCharacterClick,
                 category = "Air"
             )
         }
@@ -84,7 +84,7 @@ fun MainScreen(
         viewModel.state.value.earthBendersList?.data?.let {
             CharactersList(
                 characters = it,
-                onCharacterClick = {},
+                onCharacterClick = onCharacterClick,
                 category = "Earth"
             )
         }
@@ -98,7 +98,7 @@ fun MainScreen(
         viewModel.state.value.waterBendersList?.data?.let {
             CharactersList(
                 characters = it,
-                onCharacterClick = {},
+                onCharacterClick = onCharacterClick,
                 category = "Water"
             )
         }
@@ -112,7 +112,7 @@ fun MainScreen(
         viewModel.state.value.fireBendersList?.data?.let {
             CharactersList(
                 characters = it,
-                onCharacterClick = {},
+                onCharacterClick = onCharacterClick,
                 category = "Fire"
             )
         }
@@ -126,7 +126,8 @@ fun MainScreen(
         viewModel.state.value.avatarsList?.data?.let {
             AvatarList(
                 avatars = it,
-                onCharacterClick = {})
+                onCharacterClick = onCharacterClick
+            )
         }
     }
 }

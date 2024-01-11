@@ -11,11 +11,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.example.avatarthelastairbender.navigation.AvatarNavHost
 import com.example.avatarthelastairbender.presentation.avatar_list.AvatarListViewModel
-import com.example.avatarthelastairbender.presentation.avatar_list.MainScreen
+import com.example.avatarthelastairbender.presentation.character_detail.CharacterDetailViewModel
 import com.example.avatarthelastairbender.ui.theme.AvatarTheLastAirBenderTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+private const val TAG = "MainActivity"
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -29,8 +32,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     val avatarListViewModel: AvatarListViewModel by viewModels()
-                    MainScreen(viewModel = avatarListViewModel)
 
+                    AvatarNavHost(
+                        navController = rememberNavController(),
+                        viewModel = avatarListViewModel,
+                    )
                 }
             }
         }
