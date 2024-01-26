@@ -21,8 +21,7 @@ class CharacterByAffiliationViewModel @Inject constructor(
 
     private val _state = mutableStateOf(CharacterByAffiliationState())
     val state: State<CharacterByAffiliationState> = _state
-
-//    init {
+/    init {
 //        savedStateHandle.get<String>(Constants.PARAM_CHARACTER_ID)?.let { nation ->
 //            getCharactersByAffiliation(nation)
 //        }
