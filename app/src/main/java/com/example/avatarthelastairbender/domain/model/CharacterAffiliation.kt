@@ -1,6 +1,8 @@
 package com.example.avatarthelastairbender.domain.model
 
-import androidx.compose.ui.graphics.Color
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.avatarthelastairbender.data.remote.dto.CharacterAffiliationDto
 
 data class CharacterAffiliation(
@@ -10,7 +12,7 @@ data class CharacterAffiliation(
     val enemies: List<String>,
     val name: String,
     val photoUrl: String?,
-    val category: String?,
+    var category: String?,
 )
 
 fun CharacterAffiliationDto.toCharacterAffiliation(): CharacterAffiliation {

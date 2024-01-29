@@ -1,63 +1,46 @@
 package com.example.avatarthelastairbender.presentation.avatar_list
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.avatarthelastairbender.common.Resource
-import com.example.avatarthelastairbender.domain.model.Avatar
-import com.example.avatarthelastairbender.domain.model.CharacterAffiliation
-import com.example.avatarthelastairbender.domain.usecases.getavatars.GetAvatarsUseCase
-import com.example.avatarthelastairbender.domain.usecases.getcharactersbyaffiliation.GetCharactersByAffiliationUseCase
+import com.example.avatarthelastairbender.domain.usecases.getAllCharacters.GetAllCharactersUseCase
+import com.example.avatarthelastairbender.domain.usecases.getAllCharacters.MainScreenListViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
-
-private const val TAG = "AvatarListViewModel"
 
 @HiltViewModel
 class AvatarListViewModel @Inject constructor(
-    private val getCAvatarsUseCase: GetAvatarsUseCase,
-    private val getCharactersByAffiliationUseCase: GetCharactersByAffiliationUseCase,
+    private val getAllCharactersUseCase: GetAllCharactersUseCase
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(MainScreenListViewState())
-    val state: State<MainScreenListViewState> = _state
+    private val _state = mutableStateOf(MainScreenState())
+    val state: State<MainScreenState> = _state
 
     init {
-        viewModelScope.launch {
-            val earthBenders = getCharactersByAffiliationUseCase("earth")
-            val waterBenders = getCharactersByAffiliationUseCase("water")
-            val fireBenders = getCharactersByAffiliationUseCase("fire")
-            val airBenders = getCharactersByAffiliationUseCase("Air")
-            val avatars = getCAvatarsUseCase()
+        getCharacters()
+    }
 
-            combine(
-                earthBenders,
-                waterBenders,
-                fireBenders,
-                airBenders,
-                avatars
-            ) { earthBendersList, waterBendersList, fireBendersList, airBendersList, avatarsList ->
-                MainScreenListViewState(
-                    earthBendersList,
-                    waterBendersList,
-                    fireBendersList,
-                    airBendersList,
-                    avatarsList
-                )
-            }.collect { _state.value = it }
-            Log.d(TAG, "onSuccess:  ${_state.value.avatarsList?.data}")
-        }
+    private fun getCharacters() {
+        getAllCharactersUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.value = MainScreenState(characters = result.data ?: MainScreenListViewState())
+                }
+
+                is Resource.Error -> {
+                    _state.value = MainScreenState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+
+                is Resource.Loading -> {
+                    _state.value = MainScreenState(isLoading = true)
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 }
-
-data class MainScreenListViewState(
-    val earthBendersList: Resource<List<CharacterAffiliation>>? = null,
-    val waterBendersList: Resource<List<CharacterAffiliation>>? = null,
-    val fireBendersList: Resource<List<CharacterAffiliation>>? = null,
-    val airBendersList: Resource<List<CharacterAffiliation>>? = null,
-    val avatarsList: Resource<List<Avatar>>? = null
-)

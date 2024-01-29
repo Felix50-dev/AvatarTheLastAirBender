@@ -24,6 +24,7 @@ class GetAllCharactersUseCase @Inject constructor(
             val waterBenders = repository.getCharactersByAffiliation("Water")
             Log.d("WaterBenders", "invoke: $waterBenders")
             val fireBenders = repository.getCharactersByAffiliation("Fire")
+            val airBenders = repository.getCharactersByAffiliation("Air")
             val avatars = repository.getAvatars()
             Log.d("Avatars", "invoke: $avatars")
 
@@ -31,9 +32,10 @@ class GetAllCharactersUseCase @Inject constructor(
                 earthBendersList = earthBenders.map { it.toCharacterAffiliation() },
                 waterBendersList = waterBenders.map { it.toCharacterAffiliation() },
                 fireBendersList = fireBenders.map { it.toCharacterAffiliation() },
+                airBendersList = airBenders.map { it.toCharacterAffiliation() },
                 avatarsList = avatars.map { it.toAvatar() },
             )
-            emit(Resource.Success(MainScreenListViewState()))
+            emit(Resource.Success(data = mainScreenListViewState))
             Log.d("AvatarsEmitted", "invoke: ${mainScreenListViewState.avatarsList}")
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "unexpected error"))
@@ -43,9 +45,10 @@ class GetAllCharactersUseCase @Inject constructor(
     }
 }
 
-data class MainScreenListViewState(
+class MainScreenListViewState(
     val earthBendersList: List<CharacterAffiliation> = emptyList(),
     val waterBendersList: List<CharacterAffiliation> = emptyList(),
     val fireBendersList: List<CharacterAffiliation> = emptyList(),
+    val airBendersList: List<CharacterAffiliation> = emptyList(),
     val avatarsList: List<Avatar> = emptyList()
 )

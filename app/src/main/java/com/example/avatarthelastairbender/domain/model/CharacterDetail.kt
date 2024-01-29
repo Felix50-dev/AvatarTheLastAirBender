@@ -14,7 +14,7 @@ data class CharacterDetail(
     val position: String?,
     val profession: String?,
     val weapon: String?,
-    val category: String?,
+    var category: String?,
 )
 
 fun CharacterDetailDto.toCharacterDetail(): CharacterDetail {

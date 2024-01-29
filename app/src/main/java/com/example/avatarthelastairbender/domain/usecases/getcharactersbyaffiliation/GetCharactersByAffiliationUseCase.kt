@@ -18,7 +18,7 @@ class GetCharactersByAffiliationUseCase @Inject constructor(
         try {
             emit(Resource.Loading())
             val charactersByAffiliation = repository.getCharactersByAffiliation(nation)
-            emit(Resource.Success(charactersByAffiliation.map { it.toCharacterAffiliation() }))
+            emit(Resource.Success(data = charactersByAffiliation.map { it.toCharacterAffiliation() }))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "unexpected error"))
         } catch (e: IOException) {

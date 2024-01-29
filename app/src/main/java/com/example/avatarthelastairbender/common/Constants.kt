@@ -4,4 +4,5 @@ object Constants {
 
     const val BASE_URL = "https://last-airbender-api.fly.dev"
     const val PARAM_CHARACTER_ID = "_id"
+    const val PARAM_CHARACTER_CATEGORY = "category"
 }
