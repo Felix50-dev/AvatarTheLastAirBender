@@ -16,7 +16,7 @@ characters based on their nation, Details screen displays the details of these c
 
 ## Screenshots
 
-<img src="screenshots/image1.jpg"/>
+<img src="app/src/main/java/com/example/avatarthelastairbender/screenshots/image1.jpg"/>
 
 ## Features
 
