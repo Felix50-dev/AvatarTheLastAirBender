@@ -16,6 +16,7 @@ characters based on their nation, Details screen displays the details of these c
 
 ## Screenshots
 
+<img src="screenshots/image1.jpg"/>
 
 ## Features
 
