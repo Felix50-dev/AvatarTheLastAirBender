@@ -15,7 +15,7 @@ Avatar the last air Bender is still in development, two screens have been implem
 characters based on their nation, Details screen displays the details of these characters. The plan is to add another API to display various episodes.
 
 ## Screenshots
-
+<img src="app/src/main/java/com/example/avatarthelastairbender/screenshots/imag1.jpg"/>
 
 ## Features
 
